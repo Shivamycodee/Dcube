@@ -1,0 +1,82 @@
+ /* body{
+    background-image: url("/images/mix02.jpg");
+  } */
+
+  .cont{
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+  }
+
+  .fileUpload{
+    margin-top: 60px;
+    border: 1px solid white;
+    background-color: white;
+    width:100%;
+    height: fit-content;
+    max-width: 40vw;
+    border-radius: 10px;
+  }
+
+  #upSection{
+    padding: 30px; 
+    display: flex;
+    flex-direction: column ;
+  }
+
+
+  #upTitle p{
+    font-family: sans-serif;
+    font-weight: 300;
+    font-size: large;
+  }
+
+
+  #upInput{
+    border: 1px dashed gray;
+    border-radius: 7px;
+    align-self: center;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    width:100%;
+  }
+
+  #upInput img{
+    width: 150px;
+    height: 120px;
+    margin-bottom: 20px;
+  }
+
+  #upInput input{
+    margin: 0px 0 0px 70px ;
+    cursor:pointer;
+  }
+
+  #upBtn button{
+    width:100%;
+  }
+
+  #connectWallet{
+      position:absolute;
+      right: 0;
+      margin-right: 20px;
+  }
+
+  
+.foot{
+position: absolute;
+	text-align: center;
+	bottom: 0;
+	width: 100%;
+	height: 70px;
+	background-color: #646b6a;
+  }
+
+  .foot p{
+  margin-top: 17px;
+	font-size: 20px;
+  color: #fff;
+  }
