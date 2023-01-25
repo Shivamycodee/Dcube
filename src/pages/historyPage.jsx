@@ -1,12 +1,18 @@
 import React from "react"
 import '@/styles/history.module.css'
+import { useGlobalContext } from "context/cid";
 
 const HistoryPage = () => {
+
+
+    const { logs } = useGlobalContext();
+    var k = 1;
+
   return (
     <>
       <div className="cont">
         <div style={{ overflow: "hidden" }} className="fileUpload">
-          <table class="table">
+          <table className="table">
             <thead>
               <tr>
                 <th scope="col">No.</th>
@@ -18,52 +24,17 @@ const HistoryPage = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>mountain.png</td>
-                <td>24 kb</td>
-                <td>image/jpg</td>
-                <td>12/11/2021</td>
-                <td>
-                  <a
-                    target="_blank"
-                    href="https://gateway.ipfscdn.io/ipfs/QmUqBtTpJids8zUH2PaPx3Czdj6iMXXS7Y3XE3jWVwrjWQ/0"
-                  >
-                    QmUqBtTp...eMs
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>miko.png</td>
-                <td>24 kb</td>
-                <td>image/jpg</td>
-                <td>12/11/2021</td>
-
-                <td>
-                  <a
-                    target="_blank"
-                    href="https://gateway.ipfscdn.io/ipfs/QmUqBtTpJids8zUH2PaPx3Czdj6iMXXS7Y3XE3jWVwrjWQ/0"
-                  >
-                    QmUqBtTp...eMs
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>hiko.png</td>
-                <td>24 kb</td>
-                <td>image/jpg</td>
-                <td>12/11/2021</td>
-                <td>
-                  <a
-                    target="_blank"
-                    href="https://gateway.ipfscdn.io/ipfs/QmUqBtTpJids8zUH2PaPx3Czdj6iMXXS7Y3XE3jWVwrjWQ/0"
-                  >
-                    QmUdBsTp...eMk
-                  </a>
-                </td>
-              </tr>
+              {logs.map((item)=>{
+                return ( <tr>
+                  <td key={k}>{k}</td>{k+=1}
+                  <td key={k}>{item.name}</td>
+                  <td key={k}>{item.size}</td>
+                  <td key={k}>{item.type}</td>
+                  <td key={k}><a target="_blank" href={item.url} alt="filelink">URL...</a></td>
+              </tr>)
+              })
+              }
+             
             </tbody>
           </table>
         </div>

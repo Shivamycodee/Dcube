@@ -1,4 +1,5 @@
-import cidContextProvider from '@/context/cid';
+import CidContextProvider from "../../context/cid";
+import ConnectWalletProvider from "../../context/connectWalletContext";
 import '@/styles/globals.css'
 import Layout from '../components/layout'
 import Head from 'next/head'
@@ -7,8 +8,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
  function App({ Component, pageProps }) {
 
   return (
-    <>
-    <cidContextProvider>
+    <CidContextProvider>
+    <ConnectWalletProvider>
       <Head>
         <link rel="icon" href="/d3_icon.ico" />
         <title>DCUBE</title>
@@ -16,8 +17,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
       <Layout>
         <Component {...pageProps} />
       </Layout>
-  </cidContextProvider>
-    </>
+  </ConnectWalletProvider>
+  </CidContextProvider>
     );
 }
 

@@ -1,68 +1,82 @@
-import React,{useState,useEffect} from 'react'
-import { ThirdwebStorage } from "@thirdweb-dev/storage";
+import React from 'react'
 import '@/styles/upload.module.css'
-import { useGlobalContext } from '@/context/cid';
+import { useGlobalContext } from 'context/cid';
+import { UseGlobalContext } from 'context/connectWalletContext';
+
+
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const uploadSection= ()=>{  
-
-  const { uploadData, fetchFile } = useGlobalContext();
-
-//    const [data,setData] = useState(null);
   
-//    const fetchFile = async(event)=>{ 
-//     setData(event.target.files[0]);
-//     fileObj["name"] = event.target.files[0].name;
-//     fileObj["size"] = event.target.files[0].size/1000 + " kb";
-//     fileObj["type"] = event.target.files[0].type;
-//    }
+  const { uploadData, fetchFile } = useGlobalContext();
+  const {accounts,handleDisconnect} = UseGlobalContext();
 
-//    useEffect(()=>{},[data])
-
-//  async function uploadData(){
-//       if(data !== null){
-//         const Storage = new ThirdwebStorage();
-//         console.log("data : ",data)
-//         const upload = await Storage.upload(data);
-//         var url = Storage.resolveScheme(upload);
-//         console.log("url",url)
-//       }else{
-//         console.log("please select a file")
-//       }
-//   }
+    const display = ()=>{
+        toast.promise(uploadData, {
+          pending: {
+            render() {
+              return "Uploading file 📂";
+            },
+            position: "top-center",
+          },
+          success: {
+            render() {
+              return "file Uploaded 😃";
+            },
+            position: "top-center",
+          },
+          error: "Promise rejected 🤯",
+        });
+    }
 
     return (
-      <div className="cont">
-        <div className="fileUpload">
-          <div id="upSection">
-            <div id="upTitle">
-              <p> Upload your file here... </p>
-              <hr />
-            </div>
-            <div id="upInput">
-              <img
-                alt="upload"
-                src="https://100dayscss.com/codepen/upload.svg"
-              ></img>
-              <input
-                onChange={(event) => fetchFile(event)}
-                id="myFile"
-                name="myFile"
-                type="file"
-                required
-              ></input>
-            </div>
-            <div id="upBtn">
-              <button
-                type="submit"
-                className="btn btn-secondary"
-                onClick={() => uploadData()}
-              >
-                Upload
-              </button>
+      <>
+        <ToastContainer
+          autoClose={1200}
+          hideProgressBar={false}
+          closeButton={false}
+          newestOnTop={false}
+          rtl={false}
+          draggable
+        />
+        <div className="cont">
+          <div className="fileUpload">
+            <div id="upSection">
+              <div id="upTitle">
+                <p> Upload your file here... </p>
+                <hr />
+              </div>
+              <div id="upInput">
+                <img
+                  alt="upload"
+                  src="https://100dayscss.com/codepen/upload.svg"
+                ></img>
+                <input
+                  onChange={(event) => fetchFile(event)}
+                  id="myFile"
+                  name="myFile"
+                  type="file"
+                  required
+                ></input>
+              </div>
+              <div id="upBtn">
+                <button
+                  type="submit"
+                  className="btn btn-secondary"
+                  onClick={() => display()}
+                >
+                  Upload
+                </button>
+                {accounts.length ?  
+                  <button type="submit" style={{marginTop:5}} className="btn btn-secondary" onClick={()=>handleDisconnect()}>Disconnect Wallet</button>:<p></p>
+              }
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
 }
 

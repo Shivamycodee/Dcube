@@ -9,8 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@coinbase/wallet-sdk": "^3.6.3",
     "@next/font": "13.1.2",
     "@thirdweb-dev/storage": "^1.0.6",
+    "@walletconnect/sign-client": "^2.3.0",
+    "@web3modal/standalone": "^2.0.0",
     "bootstrap": "^5.2.3",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.2",
@@ -20,6 +23,11 @@
     "path": "^0.12.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "url": "^0.11.0"
+    "react-toastify": "^9.1.1",
+    "sweetalert2": "^11.7.0",
+    "sweetalert2-react-content": "^5.0.7",
+    "url": "^0.11.0",
+    "walletconnect": "^1.7.8",
+    "web3modal": "^1.9.11"
   }
 }

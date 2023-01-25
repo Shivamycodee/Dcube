@@ -1,19 +1,11 @@
-import React from  'react';
-import {ethers} from 'ethers';
+import React,{useState,useEffect} from  'react';
 import Link from 'next/link'
-import {useRouter} from 'next/router'
+import { UseGlobalContext } from 'context/connectWalletContext';
+import {toast} from 'react-toastify'
 
 const navbar =  ()=>{
-
-  const router = useRouter();
-
-   const connectWallet = async()=>{
-    var provider = new ethers.providers.Web3Provider(window.ethereum);
-    var account = await provider.send("eth_requestAccounts", []);
-    // var signer =  provider.getSigner();
-    alert("public address: "+ account);
-   }
   
+  const { handleConnect,accounts,handleSend } = UseGlobalContext();
 
     return (
       <>
@@ -50,9 +42,10 @@ const navbar =  ()=>{
                 </Link>
               </li>
               <li>
+                <button className='btn btn-secondary' onClick={()=>handleSend()}>send</button>
                 <button
                   id="connectWallet"
-                  onClick={() => connectWallet()}
+                  onClick={() => accounts.length ? toast(`Address: ${accounts}`) : handleConnect()}
                   className="btn btn-secondary"
                 >
                   Connect Wallet
