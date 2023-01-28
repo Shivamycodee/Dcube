@@ -2,13 +2,24 @@ import React,{useState,useEffect} from  'react';
 import Link from 'next/link'
 import { UseGlobalContext } from 'context/connectWalletContext';
 import {toast} from 'react-toastify'
+import WalletCard from './walletCard'
+import Copy from "copy-to-clipboard";
+
 
 const navbar =  ()=>{
   
-  const { handleConnect,accounts,handleSend } = UseGlobalContext();
+  const { flag, active, setFlag, account, deactivate } = UseGlobalContext();
+
+  console.log("active : ",active)
+      
+  function handleCopy() {
+    Copy(account);
+    toast(`copied: ${account}`);
+  }
 
     return (
       <>
+        {flag && <WalletCard />}
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <a style={{ marginLeft: 20 }} className="navbar-brand" href="/">
             DStore
@@ -42,14 +53,33 @@ const navbar =  ()=>{
                 </Link>
               </li>
               <li>
-                <button className='btn btn-secondary' onClick={()=>handleSend()}>send</button>
-                <button
-                  id="connectWallet"
-                  onClick={() => accounts.length ? toast(`Address: ${accounts}`) : handleConnect()}
-                  className="btn btn-secondary"
-                >
-                  Connect Wallet
-                </button>
+                <div id="detail-holder">
+                  {active ? (
+                    <>
+                        <div onClick={()=>handleCopy()} id="accout-board">
+                          <code>{account}</code>
+                        </div>
+                      <button
+                        id="connectWallet"
+                        onClick={() => {
+                          deactivate();
+                          toast("wallet disconnect");
+                        }}
+                        className="btn btn-secondary"
+                      >
+                        Disconnect
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      id="connectWallet"
+                      onClick={() => setFlag(true)}
+                      className="btn btn-secondary"
+                    >
+                      Connect Wallet
+                    </button>
+                  )}
+                </div>
               </li>
             </ul>
           </div>

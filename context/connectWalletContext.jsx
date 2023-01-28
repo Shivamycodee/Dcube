@@ -1,157 +1,59 @@
 import React, { useState, useContext, useEffect } from "react";
-import { SignClient } from "@walletconnect/sign-client";
-import { Web3Modal } from "@web3modal/standalone";
+import { useWeb3React } from "@web3-react/core";
+import { WalletLinkConnector } from "@web3-react/walletlink-connector";
+import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
+import { InjectedConnector } from "@web3-react/injected-connector";
 
 import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
+
+const CoinbaseWallet = new WalletLinkConnector({
+  url: `https://mainnet.infura.io/v3/608f16e00a094f44bedc66d480314881`,
+  appName: "dcube",
+  supportedChainIds: [1, 3, 4, 5, 42, 6, 80001, 97],
+});
+
+const WalletConnect = new WalletConnectConnector({
+  rpcUrl: `https://mainnet.infura.io/v3/608f16e00a094f44bedc66d480314881`,
+  bridge: "https://bridge.walletconnect.org",
+  qrcode: true,
+});
+
+const Injected = new InjectedConnector({
+  supportedChainIds: [1, 3, 4, 5, 42, 6, 80001, 97],
+});
+
 
 export const connectWalletContext = React.createContext()
 
-
 export default function connectWalletContextProvider({children}){
-  
-  const web3Modal = new Web3Modal({
-    projectId: "ea319104e388438ad0bbf8c0ffce06b1",
-    standaloneChains: ["eip155:5"]
-  });
 
-  const [signClient, setSignClient] = useState();
-  const [sessions, setSessions] = useState([]);
-  const [accounts, setAccounts] = useState([]);
+   const { activate, deactivate, active, chainId, account } = useWeb3React();
 
-  async function handleSend(){
+      const [flag, setFlag] = useState(false);
 
-    try{
-
-      const tx = {
-    from: accounts,
-    to: "0xd46e8dd67c5d32be8058bb8eb970870f07244567",
-    data: "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675",
-    gas: "0x76c0", // 30400
-    gasPrice: "0x9184e72a000", // 10000000000000
-    value: "0x9184e72a", // 2441406250
-    nonce: "0x117" // 279
-      }
-
-      const result = await signClient.request({
-        topic: sessions.topic,
-        request:{
-           method:"eth_sendTransaction",
-           params:[tx]
-        },
-        chainId:"eip155:5"
-      })
       
-    }catch(err){}
-    console.log("result ",result)
+
+ async function handleConnect(str){
+        if(str === "metamask") await activate(Injected)
+        else if(str === "coinbase") activate(CoinbaseWallet)
+        else activate(WalletConnect)
+        toast("wallet connected")
   }
 
+  // useEffect(()=>{
+  //   if(active) setFlag(false);
+  // },[flag])
 
-  async function createClient() {
-    try {
-      const signClient = await SignClient.init({
-        projectId: "ea319104e388438ad0bbf8c0ffce06b1",
-      });
-      setSignClient(signClient);
-      await subscribeToEvents(signClient);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  async function onSessionConnect(session){
-
-    if(!session) throw Error("session doesn't exist.");
-
-    try{
-       setSessions(session);
-       setAccounts(session.namespaces.eip155.accounts[0].slice(9));
-    }catch(err){console.error(err)}
-       
-  }
-
-
-  async function handleConnect(){
-    // if (!signClient) throw Error("SignClient does not exist");
-    
-        try {
-          const proposalNamespace = {
-            eip155: {
-              chains: ["eip155:5"],
-              methods: ["eth_sendTransaction"],
-              events: ["connect", "disconnect"],
-            },
-          };
-
-          const { uri, approval } = await signClient.connect({
-            requiredNamespaces: proposalNamespace,
-          });
-
-          if (uri) {
-            web3Modal.openModal({ uri });
-            const sessionNamespace = await approval();
-            onSessionConnect(sessionNamespace);
-            web3Modal.closeModal()
-          }
-        } catch (e) {
-          console.log(e);
-        }
-  }
-
-  async function handleDisconnect() {
-    try {
-      await signClient.disconnect({
-        topic: sessions.topic,
-        code: 6000,
-        message: "user disconnected",
-      });
-    } catch (err) {
-      console.error(err);
-    }
-    console.log("deleted")
-    reset();
-  }
-
-  const reset = ()=>{
-    setAccounts([])
-    setSessions([])
-  }
-
-  async function subscribeToEvents(client){
-    
-     try{
-      client.on("session_deleted",()=>{
-        console.log("user disconnected the session from their wallet");
-        reset();
-      })
-     }catch(e){}
+ 
+  function handleDisconnect(){
 
   }
-
-  useEffect(() => {
-    if (!signClient) {
-      createClient();
-    }
-  }, [signClient]);
-
-  //  const connectWallet = async () => {
-  //    var provider = new ethers.providers.Web3Provider(window.ethereum);
-  //    var account = await provider.send("eth_requestAccounts", []);
-  //    // var signer =  provider.getSigner();
-  //    if (account) {
-  //      setTimeout(
-  //        toast.success("Wallet Connected", {
-  //          position: toast.POSITION.TOP_CENTER,
-  //          theme: "dark",
-  //        }),
-  //        2000
-  //      );
-  //    }
-  //  };
 
   return (
     <connectWalletContext.Provider
-      value={{ handleConnect, accounts, handleDisconnect, handleSend }}
+      value={{ handleConnect, setFlag, flag, active, account, deactivate }}
     >
       <ToastContainer
         autoClose={1200}

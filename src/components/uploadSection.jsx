@@ -1,8 +1,6 @@
 import React from 'react'
 import '@/styles/upload.module.css'
 import { useGlobalContext } from 'context/cid';
-import { UseGlobalContext } from 'context/connectWalletContext';
-
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,8 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 const uploadSection= ()=>{  
   
   const { uploadData, fetchFile } = useGlobalContext();
-  const {accounts,handleDisconnect} = UseGlobalContext();
-
+  
     const display = ()=>{
         toast.promise(uploadData, {
           pending: {
@@ -69,9 +66,6 @@ const uploadSection= ()=>{
                 >
                   Upload
                 </button>
-                {accounts.length ?  
-                  <button type="submit" style={{marginTop:5}} className="btn btn-secondary" onClick={()=>handleDisconnect()}>Disconnect Wallet</button>:<p></p>
-              }
               </div>
             </div>
           </div>
