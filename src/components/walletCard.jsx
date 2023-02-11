@@ -1,10 +1,14 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { UseGlobalContext } from "context/connectWalletContext";
+import ConnectWalletCom from "../custom-components/useConnectWallet";
 
 
-export default function Card() {
 
-    const {handleConnect,setFlag} = UseGlobalContext();
+export default function Card({flag,setFlag}) {
+
+    const {handleConnect} = UseGlobalContext();
+
+    // const [connectToWallet] = ConnectWalletCom();
 
   return (
     <>

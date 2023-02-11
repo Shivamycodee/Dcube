@@ -1,25 +1,45 @@
-import React,{useState,useEffect} from  'react';
+import React,{useState,useEffect,useCallback} from  'react';
 import Link from 'next/link'
 import { UseGlobalContext } from 'context/connectWalletContext';
-import {toast} from 'react-toastify'
+import { toast, ToastContainer } from "react-toastify";
 import WalletCard from './walletCard'
 import Copy from "copy-to-clipboard";
 
+import useConnectWalletCom  from "../custom-components/useConnectWallet";
 
 const navbar =  ()=>{
   
-  const { flag, active, setFlag, account, deactivate } = UseGlobalContext();
+  const {  active, account, deactivate } = UseGlobalContext();
+  
+  
+  // const [,Active, Account,getActive] = useConnectWalletCom();
+  
+  const [flag, setFlag] = useState(false);
+  useEffect(()=>{
+    console.log("flag is : ",flag);
+  },[flag,setFlag])
 
-  console.log("active : ",active)
-      
+  // const val = useCallback(()=>getActive(),[Active]);
+  
   function handleCopy() {
     Copy(account);
     toast(`copied: ${account}`);
   }
 
+  // useEffect(()=>{
+  //   val();
+  // },[val])
+
     return (
       <>
-        {flag && <WalletCard />}
+        <ToastContainer
+          autoClose={1200}
+          hideProgressBar={false}
+          newestOnTop={false}
+          rtl={false}
+          draggable
+        />
+        {flag && <WalletCard flag={flag} setFlag={setFlag}/>}
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <a style={{ marginLeft: 20 }} className="navbar-brand" href="/">
             DStore
@@ -56,9 +76,9 @@ const navbar =  ()=>{
                 <div id="detail-holder">
                   {active ? (
                     <>
-                        <div onClick={()=>handleCopy()} id="accout-board">
-                          <code>{account}</code>
-                        </div>
+                      <div onClick={() => handleCopy()} id="accout-board">
+                        <code>{account}</code>
+                      </div>
                       <button
                         id="connectWallet"
                         onClick={() => {

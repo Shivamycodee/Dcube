@@ -1,15 +1,21 @@
 import React, { useState,useContext, useEffect} from "react";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
+import { useSmartContext } from "./smartContract";
+
 
 import Swal from "sweetalert2";
 
 export const cidContext = React.createContext();
 
 export const CidContextProvider = ({children}) => {
+
+  
+  // const { uploadOnContract, getUploadData } = useSmartContext();
   
   const fileProps = {};
   const [data, setData] = useState(null);
   const [logs, setLogs] = useState([]);
+  
 
  async function fetchFile (event){
   setData(event.target.files[0]);
@@ -20,7 +26,6 @@ export const CidContextProvider = ({children}) => {
 
   useEffect(() => {
     localStorage.setItem("logs", JSON.stringify(logs));
-    console.log('logs : ',logs)
    }, [logs]);
 
   useEffect(() => {}, [data]);
@@ -32,9 +37,8 @@ export const CidContextProvider = ({children}) => {
       try{
         const Storage = new ThirdwebStorage();
         const upload = await Storage.upload(data);
-
+         
         var url = Storage.resolveScheme(upload);
-      
         fileProps["name"] = data.name;
         fileProps["size"] = data.size / 1000 + " kb";
         fileProps["type"] = data.type;
@@ -44,7 +48,7 @@ export const CidContextProvider = ({children}) => {
       }catch(e){}
       
      } else {
-       alert("please select a file");
+      throw new Error("select file");
      }
 
      // set logs for history page.
@@ -53,6 +57,8 @@ export const CidContextProvider = ({children}) => {
       const arr = [...logs, fileProps];
       setLogs(arr);
     }
+
+    return fileProps;
 
    }
 

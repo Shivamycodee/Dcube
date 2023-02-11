@@ -1,6 +1,10 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import '@/styles/upload.module.css'
 import { useGlobalContext } from 'context/cid';
+import { UseGlobalContext } from 'context/connectWalletContext';
+import { useSmartContext } from "context/smartContract";
+
+
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,8 +13,13 @@ import "react-toastify/dist/ReactToastify.css";
 const uploadSection= ()=>{  
   
   const { uploadData, fetchFile } = useGlobalContext();
-  
-    const display = ()=>{
+  const {active} = UseGlobalContext();
+  const { uploadOnContract } = useSmartContext();
+
+  var flag = true;
+
+   
+   const display = async()=>{
         toast.promise(uploadData, {
           pending: {
             render() {
@@ -19,12 +28,33 @@ const uploadSection= ()=>{
             position: "top-center",
           },
           success: {
-            render() {
-              return "file Uploaded 😃";
+             render({ data }) {
+
+              if(flag) {
+                setTimeout(()=>{
+                  toast.promise(uploadOnContract(data.url.slice(32), data.name), {
+                    pending: {
+                      render() {
+                        return "transaction...";
+                      },
+                      position: "top-center",
+                    },
+                    success: {
+                      render() {
+                        return "file Uploaded 😃";
+                      },
+                      position: "top-center",
+                    },
+                    error: "transaction canclled ",
+                  });                
+                },2000);
+              }
+
+               flag = false;
             },
             position: "top-center",
           },
-          error: "Promise rejected 🤯",
+          error: "select a file 🤯",
         });
     }
 
@@ -62,7 +92,8 @@ const uploadSection= ()=>{
                 <button
                   type="submit"
                   className="btn btn-secondary"
-                  onClick={() => display()}
+                  // onClick={() => {uploadOnContract != null ? display():alert("sign it")}}
+                  onClick={()=>active ? display():alert("connect ur wallet")}
                 >
                   Upload
                 </button>

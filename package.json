@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ethersproject/providers": "^5.7.2",
     "@next/font": "13.1.2",
     "@thirdweb-dev/storage": "^1.0.6",
     "@web3-react/core": "^6.1.9",
@@ -18,6 +19,8 @@
     "assert": "^2.0.0",
     "bootstrap": "^5.2.3",
     "buffer": "^6.0.3",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.3",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.2",
     "ethers": "^5.7.2",
