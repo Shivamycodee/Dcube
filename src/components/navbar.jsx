@@ -42,7 +42,7 @@ const navbar =  ()=>{
         {flag && <WalletCard flag={flag} setFlag={setFlag}/>}
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <a style={{ marginLeft: 20 }} className="navbar-brand" href="/">
-            DStore
+            DCUBE
           </a>
           <button
             className="navbar-toggler"
