@@ -5,8 +5,6 @@ import { toast, ToastContainer } from "react-toastify";
 import WalletCard from './walletCard'
 import Copy from "copy-to-clipboard";
 
-import useConnectWalletCom  from "../custom-components/useConnectWallet";
-
 const navbar =  ()=>{
   
   const {  active, account, deactivate } = UseGlobalContext();
@@ -42,7 +40,7 @@ const navbar =  ()=>{
         {flag && <WalletCard flag={flag} setFlag={setFlag}/>}
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <a style={{ marginLeft: 20 }} className="navbar-brand" href="/">
-            DStore
+            DCUBE
           </a>
           <button
             className="navbar-toggler"

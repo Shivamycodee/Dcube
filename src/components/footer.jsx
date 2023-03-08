@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = ()=>{
     return (
       <div className="foot">
-        <p>Made by DCUBE 🔥❄️🔥</p>
+        <p>Made by Web3Zen 🔥❄️🔥</p>
       </div>
     );
 }
