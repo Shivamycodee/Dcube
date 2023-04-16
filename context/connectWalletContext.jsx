@@ -7,7 +7,6 @@ import { InjectedConnector } from "@web3-react/injected-connector";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
-import { injected } from "@/components/walletList";
 
 const CoinbaseWallet = new WalletLinkConnector({
   url: `https://mainnet.infura.io/v3/608f16e00a094f44bedc66d480314881`,
