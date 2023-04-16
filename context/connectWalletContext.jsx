@@ -28,7 +28,7 @@ const Injected = new InjectedConnector({
 export const connectWalletContext = React.createContext()
 
 
-export default function connectWalletContextProvider({children}){
+export default function ConnectWalletContextProvider({children}){
 
    const { activate, deactivate, active, library ,chainId, account } = useWeb3React();
   

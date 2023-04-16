@@ -40,7 +40,7 @@ const HistoryPage = () => {
             <tbody>
               { data.map((item, i) => {
                   return (
-                    <tr>
+                    <tr key={i}>
                       <td key={i + 4}>{i + 1}</td>
                       <td key={i + 1}>{item[2]}</td>
                       <td key={i + 2}>
@@ -49,7 +49,11 @@ const HistoryPage = () => {
                       <td key={i + 3}>
                         <a
                           target="_blank"
-                          href={"https://gateway.ipfscdn.io/ipfs/"+decrypt(item[0],key)}
+                          rel="noreferrer"
+                          href={
+                            "https://gateway.ipfscdn.io/ipfs/" +
+                            decrypt(item[0], key)
+                          }
                           alt="filelink"
                         >
                           URL...

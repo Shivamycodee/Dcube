@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import WalletCard from './walletCard'
 import Copy from "copy-to-clipboard";
 
-const navbar =  ()=>{
+const Navbar =  ()=>{
   
   const {  active, account, deactivate } = UseGlobalContext();
   
@@ -106,4 +106,4 @@ const navbar =  ()=>{
     );
 }
 
-export default navbar;
+export default Navbar;
